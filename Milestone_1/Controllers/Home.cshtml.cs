@@ -11,6 +11,7 @@ namespace Milestone_1.Views.Login
     {
         public void OnGet()
         {
+
         }
     }
 }

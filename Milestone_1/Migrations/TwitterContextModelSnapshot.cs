@@ -16,28 +16,102 @@ namespace Milestone_1.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.11-servicing-32099");
 
+            modelBuilder.Entity("Milestone_1.models.Comment", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("Tweetsid");
+
+                    b.Property<int?>("UserDataId");
+
+                    b.Property<string>("commentText");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("Tweetsid");
+
+                    b.HasIndex("UserDataId");
+
+                    b.ToTable("Comment");
+                });
+
+            modelBuilder.Entity("Milestone_1.models.Followers", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("UserDataId");
+
+                    b.Property<int>("UserToFollowForeignKey");
+
+                    b.Property<int?>("UserToFollowid");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("UserDataId");
+
+                    b.HasIndex("UserToFollowid");
+
+                    b.ToTable("followers");
+                });
+
+            modelBuilder.Entity("Milestone_1.models.Group", b =>
+                {
+                    b.Property<int>("GroupId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("discription");
+
+                    b.Property<string>("name");
+
+                    b.HasKey("GroupId");
+
+                    b.ToTable("Group");
+                });
+
+            modelBuilder.Entity("Milestone_1.models.Tweets", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("GroupId");
+
+                    b.Property<int?>("UserDataId");
+
+                    b.Property<DateTime>("post_date");
+
+                    b.Property<string>("tweetText");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("GroupId");
+
+                    b.HasIndex("UserDataId");
+
+                    b.ToTable("tweets");
+                });
+
             modelBuilder.Entity("Milestone_1.models.User", b =>
                 {
-                    b.Property<long>("id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("login");
 
                     b.Property<string>("password");
 
-                    b.Property<int?>("userdataid");
-
                     b.HasKey("id");
-
-                    b.HasIndex("userdataid");
 
                     b.ToTable("users");
                 });
 
             modelBuilder.Entity("Milestone_1.models.UserData", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("UserDataId")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<int>("UserForeignKey");
 
                     b.Property<string>("city");
 
@@ -49,18 +123,79 @@ namespace Milestone_1.Migrations
 
                     b.Property<string>("surname");
 
-                    b.Property<int>("userId");
+                    b.HasKey("UserDataId");
 
-                    b.HasKey("id");
+                    b.HasIndex("UserForeignKey")
+                        .IsUnique();
 
-                    b.ToTable("UserData");
+                    b.ToTable("userDatas");
                 });
 
-            modelBuilder.Entity("Milestone_1.models.User", b =>
+            modelBuilder.Entity("Milestone_1.models.UserDataGroup", b =>
                 {
-                    b.HasOne("Milestone_1.models.UserData", "userdata")
+                    b.Property<int>("UserDataId");
+
+                    b.Property<int>("GroupId");
+
+                    b.HasKey("UserDataId", "GroupId");
+
+                    b.HasIndex("GroupId");
+
+                    b.ToTable("UserDataGroup");
+                });
+
+            modelBuilder.Entity("Milestone_1.models.Comment", b =>
+                {
+                    b.HasOne("Milestone_1.models.Tweets", "Tweets")
+                        .WithMany("Comments")
+                        .HasForeignKey("Tweetsid");
+
+                    b.HasOne("Milestone_1.models.UserData", "UserData")
                         .WithMany()
-                        .HasForeignKey("userdataid");
+                        .HasForeignKey("UserDataId");
+                });
+
+            modelBuilder.Entity("Milestone_1.models.Followers", b =>
+                {
+                    b.HasOne("Milestone_1.models.UserData", "UserData")
+                        .WithMany("Followers")
+                        .HasForeignKey("UserDataId");
+
+                    b.HasOne("Milestone_1.models.User", "UserToFollow")
+                        .WithMany()
+                        .HasForeignKey("UserToFollowid");
+                });
+
+            modelBuilder.Entity("Milestone_1.models.Tweets", b =>
+                {
+                    b.HasOne("Milestone_1.models.Group", "Group")
+                        .WithMany("Tweets")
+                        .HasForeignKey("GroupId");
+
+                    b.HasOne("Milestone_1.models.UserData", "UserData")
+                        .WithMany("Tweets")
+                        .HasForeignKey("UserDataId");
+                });
+
+            modelBuilder.Entity("Milestone_1.models.UserData", b =>
+                {
+                    b.HasOne("Milestone_1.models.User", "User")
+                        .WithOne("UserData")
+                        .HasForeignKey("Milestone_1.models.UserData", "UserForeignKey")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Milestone_1.models.UserDataGroup", b =>
+                {
+                    b.HasOne("Milestone_1.models.Group", "Group")
+                        .WithMany("UserDataGroups")
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Milestone_1.models.UserData", "UserData")
+                        .WithMany("UserDataGroups")
+                        .HasForeignKey("UserDataId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
