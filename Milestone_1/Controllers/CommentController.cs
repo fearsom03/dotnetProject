@@ -22,7 +22,8 @@ namespace Milestone_1.Controllers
         // GET: Comment
         public async Task<IActionResult> Index()
         {
-            return View(await _context.comments.ToListAsync());
+            var twitterContext = _context.comments.Include(c => c.Tweets).Include(c => c.UserData);
+            return View(await twitterContext.ToListAsync());
         }
 
         // GET: Comment/Details/5
@@ -34,6 +35,8 @@ namespace Milestone_1.Controllers
             }
 
             var comment = await _context.comments
+                .Include(c => c.Tweets)
+                .Include(c => c.UserData)
                 .FirstOrDefaultAsync(m => m.id == id);
             if (comment == null)
             {
@@ -46,6 +49,8 @@ namespace Milestone_1.Controllers
         // GET: Comment/Create
         public IActionResult Create()
         {
+            ViewData["TweetForeignKey"] = new SelectList(_context.tweets, "id", "id");
+            ViewData["UserDataId"] = new SelectList(_context.userDatas, "UserDataId", "UserDataId");
             return View();
         }
 
@@ -54,7 +59,7 @@ namespace Milestone_1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,commentText")] Comment comment)
+        public async Task<IActionResult> Create([Bind("id,TweetForeignKey,UserDataId,commentText")] Comment comment)
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +67,8 @@ namespace Milestone_1.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["TweetForeignKey"] = new SelectList(_context.tweets, "id", "id", comment.TweetForeignKey);
+            ViewData["UserDataId"] = new SelectList(_context.userDatas, "UserDataId", "UserDataId", comment.UserDataId);
             return View(comment);
         }
 
@@ -78,6 +85,8 @@ namespace Milestone_1.Controllers
             {
                 return NotFound();
             }
+            ViewData["TweetForeignKey"] = new SelectList(_context.tweets, "id", "id", comment.TweetForeignKey);
+            ViewData["UserDataId"] = new SelectList(_context.userDatas, "UserDataId", "UserDataId", comment.UserDataId);
             return View(comment);
         }
 
@@ -86,7 +95,7 @@ namespace Milestone_1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,commentText")] Comment comment)
+        public async Task<IActionResult> Edit(int id, [Bind("id,TweetForeignKey,UserDataId,commentText")] Comment comment)
         {
             if (id != comment.id)
             {
@@ -113,6 +122,8 @@ namespace Milestone_1.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["TweetForeignKey"] = new SelectList(_context.tweets, "id", "id", comment.TweetForeignKey);
+            ViewData["UserDataId"] = new SelectList(_context.userDatas, "UserDataId", "UserDataId", comment.UserDataId);
             return View(comment);
         }
 
@@ -125,6 +136,8 @@ namespace Milestone_1.Controllers
             }
 
             var comment = await _context.comments
+                .Include(c => c.Tweets)
+                .Include(c => c.UserData)
                 .FirstOrDefaultAsync(m => m.id == id);
             if (comment == null)
             {

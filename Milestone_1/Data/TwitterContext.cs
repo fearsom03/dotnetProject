@@ -24,8 +24,8 @@ namespace Milestone_1.Data
             // one to one UserData->User
             modelBuilder.Entity<User>()
                 .HasOne(p => p.UserData)
-                .WithOne(i => i.User)
-                .HasForeignKey<UserData>(b => b.UserForeignKey);
+                .WithOne(i => i.User);
+                //.HasForeignKey<UserData>(b => b.UserForeignKey);
 
             // one to many UserData->Tweets
 
@@ -47,23 +47,23 @@ namespace Milestone_1.Data
             // one to many Group->Tweets
 
             modelBuilder.Entity<Group>()
-        .HasMany(c => c.Tweets)
-        .WithOne(e => e.Group);
+            .HasMany(c => c.Tweets)
+            .WithOne(e => e.Group);
 
 
             //many to many UserData<->Group
             modelBuilder.Entity<UserDataGroup>()
-        .HasKey(bc => new { bc.UserDataId, bc.GroupId });
+            .HasKey(bc => new { bc.UserDataForeignKey, bc.GroupForeignKey });
 
             modelBuilder.Entity<UserDataGroup>()
                 .HasOne(pt => pt.UserData)
                 .WithMany(p => p.UserDataGroups)
-                .HasForeignKey(pt => pt.UserDataId);
+                .HasForeignKey(pt => pt.UserDataForeignKey);
 
             modelBuilder.Entity<UserDataGroup>()
                 .HasOne(pt => pt.Group)
                 .WithMany(t => t.UserDataGroups)
-                .HasForeignKey(pt => pt.GroupId);
+                .HasForeignKey(pt => pt.GroupForeignKey);
 
         }
 

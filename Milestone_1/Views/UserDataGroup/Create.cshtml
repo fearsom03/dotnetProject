@@ -20,12 +20,12 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="UserDataId" class="control-label"></label>
-                <select asp-for="UserDataId" class ="form-control" asp-items="ViewBag.UserDataId"></select>
+                <label asp-for="UserDataForeignKey" class="control-label"></label>
+                <select asp-for="UserDataForeignKey" class ="form-control" asp-items="ViewBag.UserDataForeignKey"></select>
             </div>
             <div class="form-group">
-                <label asp-for="GroupId" class="control-label"></label>
-                <select asp-for="GroupId" class ="form-control" asp-items="ViewBag.GroupId"></select>
+                <label asp-for="GroupForeignKey" class="control-label"></label>
+                <select asp-for="GroupForeignKey" class ="form-control" asp-items="ViewBag.GroupForeignKey"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />

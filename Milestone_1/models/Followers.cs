@@ -12,6 +12,7 @@ namespace Milestone_1.models
         public UserData UserData { get; set; }
 
         public int UserToFollowForeignKey { get; set; }
+        [ForeignKey("UserToFollowForeignKey")]
         public User UserToFollow { get; set; }
 
       

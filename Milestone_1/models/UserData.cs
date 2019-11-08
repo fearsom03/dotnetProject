@@ -12,6 +12,7 @@ namespace Milestone_1.models
         public int UserDataId { get; set; }
 
         public int UserForeignKey { get; set;}
+        [ForeignKey("UserForeignKey")]
         public User User { get; set; }
 
         public string name{get;set;}

@@ -20,6 +20,14 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
+                <label asp-for="TweetForeignKey" class="control-label"></label>
+                <select asp-for="TweetForeignKey" class ="form-control" asp-items="ViewBag.TweetForeignKey"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserDataId" class="control-label"></label>
+                <select asp-for="UserDataId" class ="form-control" asp-items="ViewBag.UserDataId"></select>
+            </div>
+            <div class="form-group">
                 <label asp-for="commentText" class="control-label"></label>
                 <input asp-for="commentText" class="form-control" />
                 <span asp-validation-for="commentText" class="text-danger"></span>

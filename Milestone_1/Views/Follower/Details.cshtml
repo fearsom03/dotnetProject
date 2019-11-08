@@ -1,4 +1,4 @@
-@model Milestone_1.models.Tweets
+@model Milestone_1.models.Followers
 
 @{
     Layout = null;
@@ -14,20 +14,14 @@
 <body>
 
 <div>
-    <h4>Tweets</h4>
+    <h4>Followers</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.tweetText)
+            @Html.DisplayNameFor(model => model.UserToFollow)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.tweetText)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.post_date)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.post_date)
+            @Html.DisplayFor(model => model.UserToFollow.id)
         </dd>
     </dl>
 </div>

@@ -3,12 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Milestone_1.Migrations
 {
-    public partial class first : Migration
+    public partial class smth : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Group",
+                name: "groups",
                 columns: table => new
                 {
                     GroupId = table.Column<int>(nullable: false)
@@ -18,7 +18,7 @@ namespace Milestone_1.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Group", x => x.GroupId);
+                    table.PrimaryKey("PK_groups", x => x.GroupId);
                 });
 
             migrationBuilder.CreateTable(
@@ -66,8 +66,7 @@ namespace Milestone_1.Migrations
                     id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     UserDataId = table.Column<int>(nullable: true),
-                    UserToFollowForeignKey = table.Column<int>(nullable: false),
-                    UserToFollowid = table.Column<int>(nullable: true)
+                    UserToFollowForeignKey = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -79,11 +78,11 @@ namespace Milestone_1.Migrations
                         principalColumn: "UserDataId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_followers_users_UserToFollowid",
-                        column: x => x.UserToFollowid,
+                        name: "FK_followers_users_UserToFollowForeignKey",
+                        column: x => x.UserToFollowForeignKey,
                         principalTable: "users",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -92,87 +91,88 @@ namespace Milestone_1.Migrations
                 {
                     id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    UserDataId = table.Column<int>(nullable: true),
+                    UserDataForeignKey = table.Column<int>(nullable: false),
                     tweetText = table.Column<string>(nullable: true),
                     post_date = table.Column<DateTime>(nullable: false),
-                    GroupId = table.Column<int>(nullable: true)
+                    GroupForeignKey = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_tweets", x => x.id);
                     table.ForeignKey(
-                        name: "FK_tweets_Group_GroupId",
-                        column: x => x.GroupId,
-                        principalTable: "Group",
+                        name: "FK_tweets_groups_GroupForeignKey",
+                        column: x => x.GroupForeignKey,
+                        principalTable: "groups",
                         principalColumn: "GroupId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_tweets_userDatas_UserDataId",
-                        column: x => x.UserDataId,
+                        name: "FK_tweets_userDatas_UserDataForeignKey",
+                        column: x => x.UserDataForeignKey,
                         principalTable: "userDatas",
                         principalColumn: "UserDataId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserDataGroup",
+                name: "userDataGroups",
                 columns: table => new
                 {
-                    UserDataId = table.Column<int>(nullable: false),
-                    GroupId = table.Column<int>(nullable: false)
+                    UserDataForeignKey = table.Column<int>(nullable: false),
+                    GroupForeignKey = table.Column<int>(nullable: false),
+                    UserForeignKey = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserDataGroup", x => new { x.UserDataId, x.GroupId });
+                    table.PrimaryKey("PK_userDataGroups", x => new { x.UserDataForeignKey, x.GroupForeignKey });
                     table.ForeignKey(
-                        name: "FK_UserDataGroup_Group_GroupId",
-                        column: x => x.GroupId,
-                        principalTable: "Group",
+                        name: "FK_userDataGroups_groups_GroupForeignKey",
+                        column: x => x.GroupForeignKey,
+                        principalTable: "groups",
                         principalColumn: "GroupId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserDataGroup_userDatas_UserDataId",
-                        column: x => x.UserDataId,
+                        name: "FK_userDataGroups_userDatas_UserDataForeignKey",
+                        column: x => x.UserDataForeignKey,
                         principalTable: "userDatas",
                         principalColumn: "UserDataId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Comment",
+                name: "comments",
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Tweetsid = table.Column<int>(nullable: true),
-                    UserDataId = table.Column<int>(nullable: true),
+                    TweetForeignKey = table.Column<int>(nullable: false),
+                    UserDataId = table.Column<int>(nullable: false),
                     commentText = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Comment", x => x.id);
+                    table.PrimaryKey("PK_comments", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Comment_tweets_Tweetsid",
-                        column: x => x.Tweetsid,
+                        name: "FK_comments_tweets_TweetForeignKey",
+                        column: x => x.TweetForeignKey,
                         principalTable: "tweets",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Comment_userDatas_UserDataId",
+                        name: "FK_comments_userDatas_UserDataId",
                         column: x => x.UserDataId,
                         principalTable: "userDatas",
                         principalColumn: "UserDataId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comment_Tweetsid",
-                table: "Comment",
-                column: "Tweetsid");
+                name: "IX_comments_TweetForeignKey",
+                table: "comments",
+                column: "TweetForeignKey");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comment_UserDataId",
-                table: "Comment",
+                name: "IX_comments_UserDataId",
+                table: "comments",
                 column: "UserDataId");
 
             migrationBuilder.CreateIndex(
@@ -181,24 +181,24 @@ namespace Milestone_1.Migrations
                 column: "UserDataId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_followers_UserToFollowid",
+                name: "IX_followers_UserToFollowForeignKey",
                 table: "followers",
-                column: "UserToFollowid");
+                column: "UserToFollowForeignKey");
 
             migrationBuilder.CreateIndex(
-                name: "IX_tweets_GroupId",
+                name: "IX_tweets_GroupForeignKey",
                 table: "tweets",
-                column: "GroupId");
+                column: "GroupForeignKey");
 
             migrationBuilder.CreateIndex(
-                name: "IX_tweets_UserDataId",
+                name: "IX_tweets_UserDataForeignKey",
                 table: "tweets",
-                column: "UserDataId");
+                column: "UserDataForeignKey");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserDataGroup_GroupId",
-                table: "UserDataGroup",
-                column: "GroupId");
+                name: "IX_userDataGroups_GroupForeignKey",
+                table: "userDataGroups",
+                column: "GroupForeignKey");
 
             migrationBuilder.CreateIndex(
                 name: "IX_userDatas_UserForeignKey",
@@ -210,19 +210,19 @@ namespace Milestone_1.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Comment");
+                name: "comments");
 
             migrationBuilder.DropTable(
                 name: "followers");
 
             migrationBuilder.DropTable(
-                name: "UserDataGroup");
+                name: "userDataGroups");
 
             migrationBuilder.DropTable(
                 name: "tweets");
 
             migrationBuilder.DropTable(
-                name: "Group");
+                name: "groups");
 
             migrationBuilder.DropTable(
                 name: "userDatas");

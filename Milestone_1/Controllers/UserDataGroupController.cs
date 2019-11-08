@@ -37,7 +37,7 @@ namespace Milestone_1.Controllers
             var userDataGroup = await _context.userDataGroups
                 .Include(u => u.Group)
                 .Include(u => u.UserData)
-                .FirstOrDefaultAsync(m => m.UserDataId == id);
+                .FirstOrDefaultAsync(m => m.UserDataForeignKey == id);
             if (userDataGroup == null)
             {
                 return NotFound();
@@ -49,8 +49,8 @@ namespace Milestone_1.Controllers
         // GET: UserDataGroup/Create
         public IActionResult Create()
         {
-            ViewData["GroupId"] = new SelectList(_context.groups, "GroupId", "GroupId");
-            ViewData["UserDataId"] = new SelectList(_context.userDatas, "UserDataId", "UserDataId");
+            ViewData["GroupForeignKey"] = new SelectList(_context.groups, "GroupId", "GroupId");
+            ViewData["UserDataForeignKey"] = new SelectList(_context.userDatas, "UserDataId", "UserDataId");
             return View();
         }
 
@@ -59,7 +59,7 @@ namespace Milestone_1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserDataId,GroupId")] UserDataGroup userDataGroup)
+        public async Task<IActionResult> Create([Bind("UserDataForeignKey,GroupForeignKey")] UserDataGroup userDataGroup)
         {
             if (ModelState.IsValid)
             {
@@ -67,8 +67,8 @@ namespace Milestone_1.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["GroupId"] = new SelectList(_context.groups, "GroupId", "GroupId", userDataGroup.GroupId);
-            ViewData["UserDataId"] = new SelectList(_context.userDatas, "UserDataId", "UserDataId", userDataGroup.UserDataId);
+            ViewData["GroupForeignKey"] = new SelectList(_context.groups, "GroupId", "GroupId", userDataGroup.GroupForeignKey);
+            ViewData["UserDataForeignKey"] = new SelectList(_context.userDatas, "UserDataId", "UserDataId", userDataGroup.UserDataForeignKey);
             return View(userDataGroup);
         }
 
@@ -85,8 +85,8 @@ namespace Milestone_1.Controllers
             {
                 return NotFound();
             }
-            ViewData["GroupId"] = new SelectList(_context.groups, "GroupId", "GroupId", userDataGroup.GroupId);
-            ViewData["UserDataId"] = new SelectList(_context.userDatas, "UserDataId", "UserDataId", userDataGroup.UserDataId);
+            ViewData["GroupForeignKey"] = new SelectList(_context.groups, "GroupId", "GroupId", userDataGroup.GroupForeignKey);
+            ViewData["UserDataForeignKey"] = new SelectList(_context.userDatas, "UserDataId", "UserDataId", userDataGroup.UserDataForeignKey);
             return View(userDataGroup);
         }
 
@@ -95,9 +95,9 @@ namespace Milestone_1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserDataId,GroupId")] UserDataGroup userDataGroup)
+        public async Task<IActionResult> Edit(int id, [Bind("UserDataForeignKey,GroupForeignKey")] UserDataGroup userDataGroup)
         {
-            if (id != userDataGroup.UserDataId)
+            if (id != userDataGroup.UserDataForeignKey)
             {
                 return NotFound();
             }
@@ -111,7 +111,7 @@ namespace Milestone_1.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserDataGroupExists(userDataGroup.UserDataId))
+                    if (!UserDataGroupExists(userDataGroup.UserDataForeignKey))
                     {
                         return NotFound();
                     }
@@ -122,8 +122,8 @@ namespace Milestone_1.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["GroupId"] = new SelectList(_context.groups, "GroupId", "GroupId", userDataGroup.GroupId);
-            ViewData["UserDataId"] = new SelectList(_context.userDatas, "UserDataId", "UserDataId", userDataGroup.UserDataId);
+            ViewData["GroupForeignKey"] = new SelectList(_context.groups, "GroupId", "GroupId", userDataGroup.GroupForeignKey);
+            ViewData["UserDataForeignKey"] = new SelectList(_context.userDatas, "UserDataId", "UserDataId", userDataGroup.UserDataForeignKey);
             return View(userDataGroup);
         }
 
@@ -138,7 +138,7 @@ namespace Milestone_1.Controllers
             var userDataGroup = await _context.userDataGroups
                 .Include(u => u.Group)
                 .Include(u => u.UserData)
-                .FirstOrDefaultAsync(m => m.UserDataId == id);
+                .FirstOrDefaultAsync(m => m.UserDataForeignKey == id);
             if (userDataGroup == null)
             {
                 return NotFound();
@@ -160,7 +160,7 @@ namespace Milestone_1.Controllers
 
         private bool UserDataGroupExists(int id)
         {
-            return _context.userDataGroups.Any(e => e.UserDataId == id);
+            return _context.userDataGroups.Any(e => e.UserDataForeignKey == id);
         }
     }
 }

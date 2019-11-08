@@ -9,8 +9,8 @@ using Milestone_1.Data;
 namespace Milestone_1.Migrations
 {
     [DbContext(typeof(TwitterContext))]
-    [Migration("20191102010518_second")]
-    partial class second
+    [Migration("20191108212123_smth")]
+    partial class smth
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,19 +23,19 @@ namespace Milestone_1.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("Tweetsid");
+                    b.Property<int>("TweetForeignKey");
 
-                    b.Property<int?>("UserDataId");
+                    b.Property<int>("UserDataId");
 
                     b.Property<string>("commentText");
 
                     b.HasKey("id");
 
-                    b.HasIndex("Tweetsid");
+                    b.HasIndex("TweetForeignKey");
 
                     b.HasIndex("UserDataId");
 
-                    b.ToTable("Comment");
+                    b.ToTable("comments");
                 });
 
             modelBuilder.Entity("Milestone_1.models.Followers", b =>
@@ -47,13 +47,11 @@ namespace Milestone_1.Migrations
 
                     b.Property<int>("UserToFollowForeignKey");
 
-                    b.Property<int?>("UserToFollowid");
-
                     b.HasKey("id");
 
                     b.HasIndex("UserDataId");
 
-                    b.HasIndex("UserToFollowid");
+                    b.HasIndex("UserToFollowForeignKey");
 
                     b.ToTable("followers");
                 });
@@ -69,7 +67,7 @@ namespace Milestone_1.Migrations
 
                     b.HasKey("GroupId");
 
-                    b.ToTable("Group");
+                    b.ToTable("groups");
                 });
 
             modelBuilder.Entity("Milestone_1.models.Tweets", b =>
@@ -77,9 +75,9 @@ namespace Milestone_1.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("GroupId");
+                    b.Property<int>("GroupForeignKey");
 
-                    b.Property<int?>("UserDataId");
+                    b.Property<int>("UserDataForeignKey");
 
                     b.Property<DateTime>("post_date");
 
@@ -87,9 +85,9 @@ namespace Milestone_1.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("GroupId");
+                    b.HasIndex("GroupForeignKey");
 
-                    b.HasIndex("UserDataId");
+                    b.HasIndex("UserDataForeignKey");
 
                     b.ToTable("tweets");
                 });
@@ -135,26 +133,30 @@ namespace Milestone_1.Migrations
 
             modelBuilder.Entity("Milestone_1.models.UserDataGroup", b =>
                 {
-                    b.Property<int>("UserDataId");
+                    b.Property<int>("UserDataForeignKey");
 
-                    b.Property<int>("GroupId");
+                    b.Property<int>("GroupForeignKey");
 
-                    b.HasKey("UserDataId", "GroupId");
+                    b.Property<int?>("UserForeignKey");
 
-                    b.HasIndex("GroupId");
+                    b.HasKey("UserDataForeignKey", "GroupForeignKey");
 
-                    b.ToTable("UserDataGroup");
+                    b.HasIndex("GroupForeignKey");
+
+                    b.ToTable("userDataGroups");
                 });
 
             modelBuilder.Entity("Milestone_1.models.Comment", b =>
                 {
                     b.HasOne("Milestone_1.models.Tweets", "Tweets")
                         .WithMany("Comments")
-                        .HasForeignKey("Tweetsid");
+                        .HasForeignKey("TweetForeignKey")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Milestone_1.models.UserData", "UserData")
                         .WithMany()
-                        .HasForeignKey("UserDataId");
+                        .HasForeignKey("UserDataId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Milestone_1.models.Followers", b =>
@@ -165,18 +167,21 @@ namespace Milestone_1.Migrations
 
                     b.HasOne("Milestone_1.models.User", "UserToFollow")
                         .WithMany()
-                        .HasForeignKey("UserToFollowid");
+                        .HasForeignKey("UserToFollowForeignKey")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Milestone_1.models.Tweets", b =>
                 {
                     b.HasOne("Milestone_1.models.Group", "Group")
                         .WithMany("Tweets")
-                        .HasForeignKey("GroupId");
+                        .HasForeignKey("GroupForeignKey")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Milestone_1.models.UserData", "UserData")
                         .WithMany("Tweets")
-                        .HasForeignKey("UserDataId");
+                        .HasForeignKey("UserDataForeignKey")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Milestone_1.models.UserData", b =>
@@ -191,12 +196,12 @@ namespace Milestone_1.Migrations
                 {
                     b.HasOne("Milestone_1.models.Group", "Group")
                         .WithMany("UserDataGroups")
-                        .HasForeignKey("GroupId")
+                        .HasForeignKey("GroupForeignKey")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Milestone_1.models.UserData", "UserData")
                         .WithMany("UserDataGroups")
-                        .HasForeignKey("UserDataId")
+                        .HasForeignKey("UserDataForeignKey")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

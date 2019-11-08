@@ -11,6 +11,8 @@ namespace Milestone_1.models
         [Key]
         public int id { get; set; }
 
+        public int UserDataForeignKey { get; set; }
+        [ForeignKey("UserDataForeignKey")]
         public UserData UserData { get; set; }
 
         public string tweetText { get; set; }
@@ -19,6 +21,8 @@ namespace Milestone_1.models
 
         public IList<Comment> Comments { get; set; }
 
+        public int GroupForeignKey { get; set; }
+        [ForeignKey("GroupForeignKey")]
         public Group Group { get; set;}
 
         //public Tweets(int id, int UserForeignKey, string tweetText, DateTime post_date)

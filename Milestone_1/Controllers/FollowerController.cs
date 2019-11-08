@@ -10,22 +10,23 @@ using Milestone_1.models;
 
 namespace Milestone_1.Controllers
 {
-    public class TweetsController : Controller
+    public class FollowerController : Controller
     {
         private readonly TwitterContext _context;
 
-        public TweetsController(TwitterContext context)
+        public FollowerController(TwitterContext context)
         {
             _context = context;
         }
 
-        // GET: Tweets
+        // GET: Follower
         public async Task<IActionResult> Index()
         {
-            return View(await _context.tweets.ToListAsync());
+            var twitterContext = _context.followers.Include(f => f.UserToFollow);
+            return View(await twitterContext.ToListAsync());
         }
 
-        // GET: Tweets/Details/5
+        // GET: Follower/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +34,42 @@ namespace Milestone_1.Controllers
                 return NotFound();
             }
 
-            var tweets = await _context.tweets
+            var followers = await _context.followers
+                .Include(f => f.UserToFollow)
                 .FirstOrDefaultAsync(m => m.id == id);
-            if (tweets == null)
+            if (followers == null)
             {
                 return NotFound();
             }
 
-            return View(tweets);
+            return View(followers);
         }
 
-        // GET: Tweets/Create
+        // GET: Follower/Create
         public IActionResult Create()
         {
+            ViewData["UserToFollowForeignKey"] = new SelectList(_context.users, "id", "id");
             return View();
         }
 
-        // POST: Tweets/Create
+        // POST: Follower/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,tweetText,post_date")] Tweets tweets)
+        public async Task<IActionResult> Create([Bind("id,UserToFollowForeignKey")] Followers followers)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(tweets);
+                _context.Add(followers);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(tweets);
+            ViewData["UserToFollowForeignKey"] = new SelectList(_context.users, "id", "id", followers.UserToFollowForeignKey);
+            return View(followers);
         }
 
-        // GET: Tweets/Edit/5
+        // GET: Follower/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +77,23 @@ namespace Milestone_1.Controllers
                 return NotFound();
             }
 
-            var tweets = await _context.tweets.FindAsync(id);
-            if (tweets == null)
+            var followers = await _context.followers.FindAsync(id);
+            if (followers == null)
             {
                 return NotFound();
             }
-            return View(tweets);
+            ViewData["UserToFollowForeignKey"] = new SelectList(_context.users, "id", "id", followers.UserToFollowForeignKey);
+            return View(followers);
         }
 
-        // POST: Tweets/Edit/5
+        // POST: Follower/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,tweetText,post_date")] Tweets tweets)
+        public async Task<IActionResult> Edit(int id, [Bind("id,UserToFollowForeignKey")] Followers followers)
         {
-            if (id != tweets.id)
+            if (id != followers.id)
             {
                 return NotFound();
             }
@@ -97,12 +102,12 @@ namespace Milestone_1.Controllers
             {
                 try
                 {
-                    _context.Update(tweets);
+                    _context.Update(followers);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TweetsExists(tweets.id))
+                    if (!FollowersExists(followers.id))
                     {
                         return NotFound();
                     }
@@ -113,10 +118,11 @@ namespace Milestone_1.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(tweets);
+            ViewData["UserToFollowForeignKey"] = new SelectList(_context.users, "id", "id", followers.UserToFollowForeignKey);
+            return View(followers);
         }
 
-        // GET: Tweets/Delete/5
+        // GET: Follower/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +130,31 @@ namespace Milestone_1.Controllers
                 return NotFound();
             }
 
-            var tweets = await _context.tweets
+            var followers = await _context.followers
+                .Include(f => f.UserToFollow)
                 .FirstOrDefaultAsync(m => m.id == id);
-            if (tweets == null)
+            if (followers == null)
             {
                 return NotFound();
             }
 
-            return View(tweets);
+            return View(followers);
         }
 
-        // POST: Tweets/Delete/5
+        // POST: Follower/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var tweets = await _context.tweets.FindAsync(id);
-            _context.tweets.Remove(tweets);
+            var followers = await _context.followers.FindAsync(id);
+            _context.followers.Remove(followers);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TweetsExists(int id)
+        private bool FollowersExists(int id)
         {
-            return _context.tweets.Any(e => e.id == id);
+            return _context.followers.Any(e => e.id == id);
         }
     }
 }
