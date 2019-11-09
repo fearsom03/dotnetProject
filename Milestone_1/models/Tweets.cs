@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
+using Microsoft.AspNetCore.Mvc;
+using Milestone_1.Controllers;
 
 namespace Milestone_1.models
 {
@@ -15,6 +17,7 @@ namespace Milestone_1.models
         [ForeignKey("UserDataForeignKey")]
         public UserData UserData { get; set; }
 
+        [Remote(action: "CreatePost", controller:"Tweet")]
         public string tweetText { get; set; }
 
         public DateTime post_date { get; set; }

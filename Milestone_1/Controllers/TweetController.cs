@@ -12,6 +12,19 @@ namespace Milestone_1.Controllers
 {
     public class TweetController : Controller
     {
+        [AcceptVerbs("Get", "Post")]
+        public IActionResult CreatePost(string text)
+        {
+            if (text.Length >= 400)
+            {
+                return Json($"This text is too much more than 400 chars is already in use.");
+            }
+
+            return Json(true);
+        }
+
+
+
         private readonly TwitterContext _context;
 
         public TweetController(TwitterContext context)
