@@ -22,7 +22,7 @@
             @Html.DisplayNameFor(model => model.User)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.User.id)
+            @Html.DisplayFor(model => model.User.login)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.name)
@@ -53,6 +53,12 @@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.city)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.birthDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.birthDate)
         </dd>
     </dl>
     

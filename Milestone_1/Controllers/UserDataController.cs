@@ -48,7 +48,7 @@ namespace Milestone_1.Controllers
         // GET: UserData/Create
         public IActionResult Create()
         {
-            ViewData["UserForeignKey"] = new SelectList(_context.users, "id", "id");
+            ViewData["UserForeignKey"] = new SelectList(_context.users, "id", "login");
             return View();
         }
 
@@ -57,7 +57,7 @@ namespace Milestone_1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserDataId,UserForeignKey,name,surname,gender,country,city")] UserData userData)
+        public async Task<IActionResult> Create([Bind("UserDataId,UserForeignKey,name,surname,gender,country,city,birthDate")] UserData userData)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +65,7 @@ namespace Milestone_1.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserForeignKey"] = new SelectList(_context.users, "id", "id", userData.UserForeignKey);
+            ViewData["UserForeignKey"] = new SelectList(_context.users, "id", "login", userData.UserForeignKey);
             return View(userData);
         }
 
@@ -82,7 +82,7 @@ namespace Milestone_1.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserForeignKey"] = new SelectList(_context.users, "id", "id", userData.UserForeignKey);
+            ViewData["UserForeignKey"] = new SelectList(_context.users, "id", "login", userData.UserForeignKey);
             return View(userData);
         }
 
@@ -91,12 +91,13 @@ namespace Milestone_1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserDataId,UserForeignKey,name,surname,gender,country,city")] UserData userData)
+        public async Task<IActionResult> Edit(int id, [Bind("UserDataId,UserForeignKey,name,surname,gender,country,city,birthDate")] UserData userData)
         {
             if (id != userData.UserDataId)
             {
                 return NotFound();
             }
+            TryValidateModel(userData);
 
             if (ModelState.IsValid)
             {
@@ -118,7 +119,7 @@ namespace Milestone_1.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserForeignKey"] = new SelectList(_context.users, "id", "id", userData.UserForeignKey);
+            ViewData["UserForeignKey"] = new SelectList(_context.users, "id", "login", userData.UserForeignKey);
             return View(userData);
         }
 

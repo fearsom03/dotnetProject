@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Milestone_1.Migrations
 {
-    public partial class smth : Migration
+    public partial class second33 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -27,8 +27,8 @@ namespace Milestone_1.Migrations
                 {
                     id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    login = table.Column<string>(nullable: true),
-                    password = table.Column<string>(nullable: true)
+                    login = table.Column<string>(maxLength: 20, nullable: false),
+                    password = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -46,7 +46,8 @@ namespace Milestone_1.Migrations
                     surname = table.Column<string>(nullable: true),
                     gender = table.Column<string>(nullable: true),
                     country = table.Column<string>(nullable: true),
-                    city = table.Column<string>(nullable: true)
+                    city = table.Column<string>(nullable: true),
+                    birthDate = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

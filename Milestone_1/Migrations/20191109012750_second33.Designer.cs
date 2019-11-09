@@ -9,8 +9,8 @@ using Milestone_1.Data;
 namespace Milestone_1.Migrations
 {
     [DbContext(typeof(TwitterContext))]
-    [Migration("20191108212123_smth")]
-    partial class smth
+    [Migration("20191109012750_second33")]
+    partial class second33
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -97,9 +97,12 @@ namespace Milestone_1.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("login");
+                    b.Property<string>("login")
+                        .IsRequired()
+                        .HasMaxLength(20);
 
-                    b.Property<string>("password");
+                    b.Property<string>("password")
+                        .IsRequired();
 
                     b.HasKey("id");
 
@@ -112,6 +115,8 @@ namespace Milestone_1.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("UserForeignKey");
+
+                    b.Property<int>("birthDate");
 
                     b.Property<string>("city");
 
