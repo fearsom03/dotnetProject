@@ -19,7 +19,7 @@ namespace Milestone_1.models
 
         [Remote(action: "CreatePost", controller:"Tweet")]
         public string tweetText { get; set; }
-
+        [Required]
         public DateTime post_date { get; set; }
 
         public IList<Comment> Comments { get; set; }

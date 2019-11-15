@@ -20,7 +20,6 @@ namespace Milestone_1.models
         public string login { get; set; }
         [Required]
         [MinLength(8,ErrorMessage ="Min Lenth 8")]
-        
         [Display(Name = "password")]
         public string password { get; set; }
 

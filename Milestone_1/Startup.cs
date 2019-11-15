@@ -7,7 +7,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Milestone_1.Abstractions;
 using Milestone_1.Data;
+using Milestone_1.models;
+using Milestone_1.Services;
 
 namespace Milestone_1
 {
@@ -23,7 +26,9 @@ namespace Milestone_1
                 options.UseSqlite("Filename=mytwitter.db");
             });
             services.AddMvc();
-           
+            services.AddScoped<UserDataService>();
+            services.AddScoped<IAllRepo, Repo>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -16,6 +16,9 @@ namespace Milestone_1.models
         [ForeignKey("UserDataId")]
         public UserData UserData { get; set; }
 
+        [Required]
+        [MinLength(2, ErrorMessage = "Min Lenth 2")]
         public string commentText { get; set;}
+
     }
 }

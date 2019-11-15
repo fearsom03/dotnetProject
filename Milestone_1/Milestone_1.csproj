@@ -11,6 +11,9 @@
     <Folder Include="Views\Login\" />
     <Folder Include="models\" />
     <Folder Include="Data\" />
+    <Folder Include="Repository\" />
+    <Folder Include="Abstractions\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -50,7 +50,7 @@ namespace Milestone_1.Controllers
         public IActionResult Create()
         {
             ViewData["TweetForeignKey"] = new SelectList(_context.tweets, "id", "id");
-            ViewData["UserDataId"] = new SelectList(_context.userDatas, "UserDataId", "UserDataId");
+            ViewData["UserDataId"] = new SelectList(_context.users, "UserDataId", "UserDataId");
             return View();
         }
 
@@ -68,7 +68,7 @@ namespace Milestone_1.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["TweetForeignKey"] = new SelectList(_context.tweets, "id", "id", comment.TweetForeignKey);
-            ViewData["UserDataId"] = new SelectList(_context.userDatas, "UserDataId", "UserDataId", comment.UserDataId);
+            ViewData["UserDataId"] = new SelectList(_context.users, "UserDataId", "UserDataId", comment.UserDataId);
             return View(comment);
         }
 
@@ -86,7 +86,7 @@ namespace Milestone_1.Controllers
                 return NotFound();
             }
             ViewData["TweetForeignKey"] = new SelectList(_context.tweets, "id", "id", comment.TweetForeignKey);
-            ViewData["UserDataId"] = new SelectList(_context.userDatas, "UserDataId", "UserDataId", comment.UserDataId);
+            ViewData["UserDataId"] = new SelectList(_context.users, "UserDataId", "UserDataId", comment.UserDataId);
             return View(comment);
         }
 
@@ -123,7 +123,7 @@ namespace Milestone_1.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["TweetForeignKey"] = new SelectList(_context.tweets, "id", "id", comment.TweetForeignKey);
-            ViewData["UserDataId"] = new SelectList(_context.userDatas, "UserDataId", "UserDataId", comment.UserDataId);
+            ViewData["UserDataId"] = new SelectList(_context.users, "UserDataId", "UserDataId", comment.UserDataId);
             return View(comment);
         }
 

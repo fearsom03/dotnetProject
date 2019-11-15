@@ -5,24 +5,32 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Milestone_1.Abstractions;
 using Milestone_1.Data;
 using Milestone_1.models;
+using Milestone_1.Repository;
 
 namespace Milestone_1.Controllers
 {
     public class UserController : Controller
     {
-        private readonly TwitterContext _context;
+        //private readonly TwitterContext _context;
+        private Repo repository;
 
-        public UserController(TwitterContext context)
+        //public UserController(TwitterContext context)
+        //{
+        //    _context = context;
+        //}
+
+        public UserController(Repo repository)
         {
-            _context = context;
+            this.repository = repository;
         }
 
         // GET: User
         public async Task<IActionResult> Index()
         {
-            return View(await _context.users.ToListAsync());
+            return View(await repository.GetUsers());
         }
 
         // GET: User/Details/5
@@ -33,8 +41,7 @@ namespace Milestone_1.Controllers
                 return NotFound();
             }
 
-            var user = await _context.users
-                .FirstOrDefaultAsync(m => m.id == id);
+            var user = await repository.GetUserDetail(id);
             if (user == null)
             {
                 return NotFound();
@@ -58,8 +65,8 @@ namespace Milestone_1.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(user);
-                await _context.SaveChangesAsync();
+                repository.AddUser(user);
+                await repository.Save();
                 return RedirectToAction(nameof(Index));
             }
             return View(user);
@@ -73,7 +80,7 @@ namespace Milestone_1.Controllers
                 return NotFound();
             }
 
-            var user = await _context.users.FindAsync(id);
+            var user = await repository.GetUserDataById(id);
             if (user == null)
             {
                 return NotFound();
@@ -97,8 +104,8 @@ namespace Milestone_1.Controllers
             {
                 try
                 {
-                    _context.Update(user);
-                    await _context.SaveChangesAsync();
+                    repository.UpdateUser(user.id);
+                    await repository.Save();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -124,8 +131,9 @@ namespace Milestone_1.Controllers
                 return NotFound();
             }
 
-            var user = await _context.users
-                .FirstOrDefaultAsync(m => m.id == id);
+            var user = await repository.GetUserById(id);
+            repository.DeleteUser(user);
+
             if (user == null)
             {
                 return NotFound();
@@ -139,15 +147,19 @@ namespace Milestone_1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var user = await _context.users.FindAsync(id);
-            _context.users.Remove(user);
-            await _context.SaveChangesAsync();
+            var user = await repository.GetUserById(id);
+            repository.DeleteUser(user);
+            await repository.Save();
             return RedirectToAction(nameof(Index));
         }
 
         private bool UserExists(int id)
         {
-            return _context.users.Any(e => e.id == id);
+            var user = repository.GetUserById(id);
+            if (user == null) {
+                return true;
+            }
+            else { return false; }
         }
     }
 }

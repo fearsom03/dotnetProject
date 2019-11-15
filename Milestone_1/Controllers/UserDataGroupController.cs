@@ -50,7 +50,7 @@ namespace Milestone_1.Controllers
         public IActionResult Create()
         {
             ViewData["GroupForeignKey"] = new SelectList(_context.groups, "GroupId", "GroupId");
-            ViewData["UserDataForeignKey"] = new SelectList(_context.userDatas, "UserDataId", "UserDataId");
+            ViewData["UserDataForeignKey"] = new SelectList(_context.users, "UserDataId", "UserDataId");
             return View();
         }
 
@@ -68,7 +68,7 @@ namespace Milestone_1.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["GroupForeignKey"] = new SelectList(_context.groups, "GroupId", "GroupId", userDataGroup.GroupForeignKey);
-            ViewData["UserDataForeignKey"] = new SelectList(_context.userDatas, "UserDataId", "UserDataId", userDataGroup.UserDataForeignKey);
+            ViewData["UserDataForeignKey"] = new SelectList(_context.users, "UserDataId", "UserDataId", userDataGroup.UserDataForeignKey);
             return View(userDataGroup);
         }
 
@@ -86,7 +86,7 @@ namespace Milestone_1.Controllers
                 return NotFound();
             }
             ViewData["GroupForeignKey"] = new SelectList(_context.groups, "GroupId", "GroupId", userDataGroup.GroupForeignKey);
-            ViewData["UserDataForeignKey"] = new SelectList(_context.userDatas, "UserDataId", "UserDataId", userDataGroup.UserDataForeignKey);
+            ViewData["UserDataForeignKey"] = new SelectList(_context.users, "UserDataId", "UserDataId", userDataGroup.UserDataForeignKey);
             return View(userDataGroup);
         }
 
@@ -123,7 +123,7 @@ namespace Milestone_1.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["GroupForeignKey"] = new SelectList(_context.groups, "GroupId", "GroupId", userDataGroup.GroupForeignKey);
-            ViewData["UserDataForeignKey"] = new SelectList(_context.userDatas, "UserDataId", "UserDataId", userDataGroup.UserDataForeignKey);
+            ViewData["UserDataForeignKey"] = new SelectList(_context.users, "UserDataId", "UserDataId", userDataGroup.UserDataForeignKey);
             return View(userDataGroup);
         }
 

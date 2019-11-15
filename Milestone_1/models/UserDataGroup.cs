@@ -5,7 +5,6 @@ namespace Milestone_1.models
 {
     public class UserDataGroup
     {
-
         public int UserDataForeignKey { get; set; }
         [ForeignKey("UserForeignKey")]
         public UserData UserData { get; set; }
@@ -13,7 +12,5 @@ namespace Milestone_1.models
         public int GroupForeignKey { get; set; }
         [ForeignKey("UserForeignKey")]
         public Group Group { get; set; }
-
-      
     }
 }

@@ -8,8 +8,9 @@ namespace Milestone_1.models
     {
         [Key]
         public int GroupId { get; set;}
-
+        [Required]
         public string name { get; set;}
+        [Required]
         public string discription { get; set; }
 
         public List<UserDataGroup> UserDataGroups { get; set; }
