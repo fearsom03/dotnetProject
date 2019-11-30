@@ -11,7 +11,6 @@ namespace Milestone_1.models
     {
         [Key]
         public int id { get; set; }
-
         [Required]
         [MinLength(4, ErrorMessage = "Min Lenth 4")]
         [MaxLength(20,ErrorMessage ="Too much login letters dont be disaster to our server")]

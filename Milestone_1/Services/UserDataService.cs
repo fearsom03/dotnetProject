@@ -40,6 +40,9 @@ namespace Milestone_1.Services
             await _userRepo.Save();
 
         }
+        public async Task<User> GetUserById(int? id) {
+            return await _userRepo.GetUserById(id);
+        }
         //EndOfUser
 
 

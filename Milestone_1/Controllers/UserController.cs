@@ -9,28 +9,29 @@ using Milestone_1.Abstractions;
 using Milestone_1.Data;
 using Milestone_1.models;
 using Milestone_1.Repository;
+using Milestone_1.Services;
 
 namespace Milestone_1.Controllers
 {
     public class UserController : Controller
     {
         //private readonly TwitterContext _context;
-        private Repo repository;
+        private UserDataService service;
 
         //public UserController(TwitterContext context)
         //{
         //    _context = context;
         //}
 
-        public UserController(Repo repository)
+        public UserController(UserDataService repository)
         {
-            this.repository = repository;
+            this.service = repository;
         }
 
         // GET: User
         public async Task<IActionResult> Index()
         {
-            return View(await repository.GetUsers());
+            return View(await service.GetUsers());
         }
 
         // GET: User/Details/5
@@ -41,7 +42,7 @@ namespace Milestone_1.Controllers
                 return NotFound();
             }
 
-            var user = await repository.GetUserDetail(id);
+            var user = await service.GetUserById(id);
             if (user == null)
             {
                 return NotFound();
@@ -65,8 +66,7 @@ namespace Milestone_1.Controllers
         {
             if (ModelState.IsValid)
             {
-                repository.AddUser(user);
-                await repository.Save();
+                await service.AddUser(user);
                 return RedirectToAction(nameof(Index));
             }
             return View(user);
@@ -80,7 +80,7 @@ namespace Milestone_1.Controllers
                 return NotFound();
             }
 
-            var user = await repository.GetUserDataById(id);
+            var user = await service.GetUserById(id);
             if (user == null)
             {
                 return NotFound();
@@ -104,8 +104,7 @@ namespace Milestone_1.Controllers
             {
                 try
                 {
-                    repository.UpdateUser(user.id);
-                    await repository.Save();
+                    await service.UpdateUser(user.id);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -131,8 +130,8 @@ namespace Milestone_1.Controllers
                 return NotFound();
             }
 
-            var user = await repository.GetUserById(id);
-            repository.DeleteUser(user);
+            var user = await service.GetUserById(id);
+            await service.DeleteUser(user);
 
             if (user == null)
             {
@@ -147,15 +146,14 @@ namespace Milestone_1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var user = await repository.GetUserById(id);
-            repository.DeleteUser(user);
-            await repository.Save();
+            var user = await service.GetUserById(id);
+            await service.DeleteUser(user);
             return RedirectToAction(nameof(Index));
         }
 
         private bool UserExists(int id)
         {
-            var user = repository.GetUserById(id);
+            var user = service.GetUserById(id);
             if (user == null) {
                 return true;
             }
