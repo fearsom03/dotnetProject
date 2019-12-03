@@ -1,11 +1,13 @@
 using System;
 using System.Linq;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Milestone_1.models;
 
 namespace Milestone_1.Data
 {
-    public class TwitterContext : DbContext
+    public class TwitterContext : IdentityDbContext
     {
         public TwitterContext(DbContextOptions options) : base(options)
         {
@@ -21,6 +23,10 @@ namespace Milestone_1.Data
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole { Name = "User", NormalizedName = "USER", Id = Guid.NewGuid().ToString(), ConcurrencyStamp = Guid.NewGuid().ToString() });
+            modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole { Name = "Admin", NormalizedName = "ADMIN", Id = Guid.NewGuid().ToString(), ConcurrencyStamp = Guid.NewGuid().ToString() });
+
             // one to one UserData->User
             modelBuilder.Entity<User>()
                 .HasOne(p => p.UserData)

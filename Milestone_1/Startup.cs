@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Milestone_1.Abstractions;
@@ -29,6 +30,9 @@ namespace Milestone_1
             services.AddScoped<UserDataService>();
             services.AddScoped<IAllRepo, Repo>();
 
+       
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,25 +42,27 @@ namespace Milestone_1
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                name: "default",
-                template: "{controller=Login}/{action=Index}/{id?}");
+            app.UseHttpsRedirection();
 
-                routes.MapRoute(
-                name: "home",
-                template: "{controller=Home}/{action=Home}/{id?}");
+            app.UseStaticFiles();
+            app.UseAuthentication();
 
-                
-            });
+            //app.UseMvc(routes =>
+            //{
+            //    routes.MapRoute(
+            //    name: "default",
+            //    template: "{controller=Login}/{action=Index}/{id?}");
+
+            //    routes.MapRoute(
+            //    name: "home",
+            //    template: "{controller=Home}/{action=Home}/{id?}");
 
 
+            //});
+            app.UseMvcWithDefaultRoute();
 
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });
+
+            
         }
     }
 }
