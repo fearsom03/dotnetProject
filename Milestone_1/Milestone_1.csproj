@@ -14,6 +14,8 @@
     <Folder Include="Repository\" />
     <Folder Include="Abstractions\" />
     <Folder Include="Services\" />
+    <Folder Include="Hubs\" />
+    <Folder Include="Views\Chat\" />
   </ItemGroup>
 
   <ItemGroup>

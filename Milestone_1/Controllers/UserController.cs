@@ -1,6 +1,8 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Pages.Account.Internal;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +19,8 @@ namespace Milestone_1.Controllers
         //private readonly TwitterContext _context;
         private UserDataService service;
         private readonly UserManager<IdentityUser> _userManager;
+        [TempData]
+        public string Message { get; set; }
 
 
         //public UserController(TwitterContext context)
@@ -33,6 +37,11 @@ namespace Milestone_1.Controllers
         // GET: User
         public async Task<IActionResult> Index()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("count")))
+            {
+                HttpContext.Session.SetString("msg", "authenticated");
+            }
+            Message = $"You're {HttpContext.Session.GetString("msg")} user";
             return View(await service.GetUsers());
         }
 
