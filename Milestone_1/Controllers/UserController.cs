@@ -13,7 +13,7 @@ using Milestone_1.Services;
 
 namespace Milestone_1.Controllers
 {
-    [Authorize]
+    [Authorize (Roles ="Admin")]
     public class UserController : Controller
     {
         //private readonly TwitterContext _context;
@@ -22,11 +22,6 @@ namespace Milestone_1.Controllers
         [TempData]
         public string Message { get; set; }
 
-
-        //public UserController(TwitterContext context)
-        //{
-        //    _context = context;
-        //}
 
         public UserController(UserDataService repository , UserManager<IdentityUser> userManager)
         {
@@ -42,11 +37,10 @@ namespace Milestone_1.Controllers
                 HttpContext.Session.SetString("msg", "authenticated");
             }
             Message = $"You're {HttpContext.Session.GetString("msg")} user";
-            return View(await service.GetUsers());
+            return View(await service.GetUsersIdentity());
         }
 
         // GET: User/Details/5
-        [Authorize(Roles = "User")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -64,7 +58,6 @@ namespace Milestone_1.Controllers
         }
 
         // GET: User/Create
-        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -73,7 +66,6 @@ namespace Milestone_1.Controllers
         // POST: User/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("id,login,password")] User user)
@@ -140,7 +132,6 @@ namespace Milestone_1.Controllers
         }
 
         // GET: User/Delete/5
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -160,7 +151,6 @@ namespace Milestone_1.Controllers
         }
 
         // POST: User/Delete/5
-        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

@@ -1,0 +1,23 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Twitter App</title>
+</head>
+<body>
+    <h1>Twitter</h1>
+    <h2>IT is like main page of my appliaction</h2>
+    <AuthorizeView Roles="User">
+        <p>You can only see this if you're in the User role.</p>
+    </AuthorizeView>
+
+    <AuthorizeView Roles="Admin">
+        <p>You can only see this if you're in the Admin role.</p>
+    </AuthorizeView>
+
+</body>
+</html>

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Milestone_1.Areas.Identity.Data;
 using Milestone_1.Data;
 using Milestone_1.models;
 
@@ -9,9 +11,9 @@ namespace Milestone_1.Abstractions
 {
     public class Repo : IAllRepo
     {
-        readonly TwitterContext _context;
+        readonly Milestone_1IdentityDbContext _context;
 
-        public Repo(TwitterContext context)
+        public Repo(Milestone_1IdentityDbContext context)
         {
             _context = context;
         }
@@ -36,6 +38,7 @@ namespace Milestone_1.Abstractions
             _context.Remove(userDataId);
         }
 
+        
         public Task<User> GetUserById(int? userId)
         {
             return _context.users.FirstOrDefaultAsync(m => m.id == userId);
@@ -66,6 +69,12 @@ namespace Milestone_1.Abstractions
         {
             return _context.users.ToListAsync();
         }
+
+        public Task<List<IdentityUser>> GetIdentityUsers()
+        {
+            return  _context.Users.ToListAsync();
+        }
+
 
         public Task Save()
         {

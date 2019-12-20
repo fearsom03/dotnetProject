@@ -30,36 +30,16 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="~/" class="navbar-brand">Milestone_1</a>
+                <a href="~/Home/Index" class="navbar-brand">Milestone_1</a>
             </div>
             <div class="navbar-collapse collapse">
 
                 @{
                     var result = Engine.FindView(ViewContext, "_LoginPartial", isMainPage: false);
                 }
+
                 @if (result.Success)
                 {
-                                    
-    <ul class="navbar-nav">
-      <li class="nav-item ">
-        <a class="nav-link mr-5" asp-controller="Comment" asp-action="Index">Comment</a>
-      </li>
-        <li class="nav-item ">
-        <a class="nav-link mr-5" asp-controller="Group" asp-action="Index">Group</a>
-      </li>
-      <li class="nav-item ">
-        <a class="nav-link mr-5" asp-controller="Tweet" asp-action="Index">Tweet</a>
-      </li>
-        <li class="nav-item ">
-        <a class="nav-link mr-5" asp-controller="User" asp-action="Index">User</a>
-      </li>
-      <li class="nav-item ">
-        <a class="nav-link mr-5" asp-controller="UserData" asp-action="Index">UserData</a>
-      </li>
-        <li class="nav-item ">
-        <a class="nav-link mr-5" asp-controller="Chat" asp-action="Index">Chat</a>
-      </li>
-    </ul>
                     await Html.RenderPartialAsync("_LoginPartial");
                 }
                 else

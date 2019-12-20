@@ -6,17 +6,17 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Milestone_1.Areas.Identity.Data;
 using Milestone_1.Data;
 using Milestone_1.models;
 
 namespace Milestone_1.Controllers
 {
-    [Authorize]
     public class CommentController : Controller
     {
-        private readonly TwitterContext _context;
+        private readonly Milestone_1IdentityDbContext _context;
 
-        public CommentController(TwitterContext context)
+        public CommentController(Milestone_1IdentityDbContext context)
         {
             _context = context;
         }

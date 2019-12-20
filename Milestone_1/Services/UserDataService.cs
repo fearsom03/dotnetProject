@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Milestone_1.Abstractions;
 using Milestone_1.models;
 
@@ -19,6 +20,11 @@ namespace Milestone_1.Services
         public async Task<List<User>> GetUsers()
         {
             return await _userRepo.GetUsers();
+        }
+
+        public async Task<List<IdentityUser>> GetUsersIdentity()
+        {
+            return await _userRepo.GetIdentityUsers();
         }
         public async Task<User> DetailsUsers(int? id)
         {

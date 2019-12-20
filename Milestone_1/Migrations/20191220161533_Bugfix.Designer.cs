@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Milestone_1.Areas.Identity.Data;
 
 namespace Milestone_1.Migrations
 {
     [DbContext(typeof(Milestone_1IdentityDbContext))]
-    partial class Milestone_1IdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191220161533_Bugfix")]
+    partial class Bugfix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,8 +41,8 @@ namespace Milestone_1.Migrations
                     b.ToTable("AspNetRoles");
 
                     b.HasData(
-                        new { Id = "b80470eb-c66d-4e6e-8e76-942c50d44130", ConcurrencyStamp = "cad1e840-7b86-4ac9-bd30-ef517dd3cbfc", Name = "User", NormalizedName = "USER" },
-                        new { Id = "4e432832-c9f3-418f-a0ac-2b8248a2a7aa", ConcurrencyStamp = "053c4d26-a94e-4440-be11-b87d6438c4f2", Name = "Admin", NormalizedName = "ADMIN" }
+                        new { Id = "d58b97fd-63ee-4c23-b9ab-df98c67dea3b", ConcurrencyStamp = "62ae54ac-a6bf-45e6-b2d9-0e2d04264175", Name = "User", NormalizedName = "USER" },
+                        new { Id = "55e6d5e6-d473-4724-9e17-71c2f8aade9d", ConcurrencyStamp = "67561daa-fe4e-4ffe-b6c0-cc4d1c0c1be7", Name = "Admin", NormalizedName = "ADMIN" }
                     );
                 });
 

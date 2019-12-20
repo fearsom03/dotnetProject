@@ -2,10 +2,13 @@ using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Milestone_1.Abstractions;
 using Milestone_1.Areas.Identity.Data;
+using Milestone_1.Services;
 
 [assembly: HostingStartup(typeof(Milestone_1.Areas.Identity.IdentityHostingStartup))]
 namespace Milestone_1.Areas.Identity
@@ -20,14 +23,26 @@ namespace Milestone_1.Areas.Identity
                     options.UseSqlite("Filename=identity.db");
                 });
 
-    
-                    services.AddDefaultIdentity<IdentityUser>()
+
+                //Session end
+                services.AddMvc()
+                    .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                //SignalR
+                services.AddSignalR();
+                //SignalR
+
+                services.AddScoped<UserDataService>();
+                services.AddScoped<IAllRepo, Repo>();
+
+
+                services.AddDefaultIdentity<IdentityUser>()
         .AddRoles<IdentityRole>()
         .AddEntityFrameworkStores<Milestone_1IdentityDbContext>();
-
-                
-
             });
+
+           
+
+
 
 
 

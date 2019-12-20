@@ -8,7 +8,6 @@
     <Folder Include="wwwroot\" />
     <Folder Include="Controllers\" />
     <Folder Include="Views\" />
-    <Folder Include="Views\Login\" />
     <Folder Include="models\" />
     <Folder Include="Data\" />
     <Folder Include="Repository\" />
@@ -16,6 +15,7 @@
     <Folder Include="Services\" />
     <Folder Include="Hubs\" />
     <Folder Include="Views\Chat\" />
+    <Folder Include="Views\Home\" />
   </ItemGroup>
 
   <ItemGroup>

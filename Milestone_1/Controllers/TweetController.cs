@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Milestone_1.Areas.Identity.Data;
 using Milestone_1.Data;
 using Milestone_1.models;
 
@@ -22,15 +23,14 @@ namespace Milestone_1.Controllers
             {
                 return Json($"This text is too much more than 400 chars is already in use.");
             }
-
             return Json(true);
         }
 
 
 
-        private readonly TwitterContext _context;
+        private readonly Milestone_1IdentityDbContext _context;
 
-        public TweetController(TwitterContext context)
+        public TweetController(Milestone_1IdentityDbContext context)
         {
             _context = context;
         }
@@ -63,6 +63,7 @@ namespace Milestone_1.Controllers
         }
 
         // GET: Tweet/Create
+        [Authorize(Roles = "User")]
         public IActionResult Create()
         {
             ViewData["GroupForeignKey"] = new SelectList(_context.groups, "GroupId", "GroupId");
@@ -73,6 +74,7 @@ namespace Milestone_1.Controllers
         // POST: Tweet/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "User")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("id,UserDataForeignKey,tweetText,post_date,GroupForeignKey")] Tweets tweets)

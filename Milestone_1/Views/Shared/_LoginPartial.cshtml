@@ -4,6 +4,52 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/Identity/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/Identity/css/site.css" />
+    </environment>
+
+    <form>
+
+    <ul class="nav navbar-nav navbar-left">
+                      <li class="nav-item ">
+                        <a class="nav-link mr-5" asp-controller="Comment" asp-action="Index">Comment</a>
+                      </li>
+                        <li class="nav-item ">
+                        <a class="nav-link mr-5" asp-controller="Group" asp-action="Index">Group</a>
+                      </li>
+                      <li class="nav-item ">
+                        <a class="nav-link mr-5" asp-controller="Tweet" asp-action="Index">Tweet</a>
+                      </li>
+                        <li class="nav-item ">
+                        <a class="nav-link mr-5" asp-controller="User" asp-action="Index">User</a>
+                      </li>
+                      <li class="nav-item ">
+                        <a class="nav-link mr-5" asp-controller="UserData" asp-action="Index">UserData</a>
+                      </li>
+                        <li class="nav-item ">
+                        <a class="nav-link mr-5" asp-controller="Chat" asp-action="Index">Chat</a>
+                      </li>
+
+        @if (User.IsInRole("Admin"))
+        {
+            <li class="nav-item ">
+                        <a class="nav-link mr-5" asp-controller="Chat" asp-action="Index">ADMIN PAGE</a>
+                      </li>
+
+        }
+        else if (User.IsInRole("User"))
+        {
+            <li class="nav-item ">
+                        <a class="nav-link mr-5" asp-controller="Chat" asp-action="Index">User PAGE</a>
+                      </li>
+
+        }
+                    </ul>
+            </form>
+
+
     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
             <li>
