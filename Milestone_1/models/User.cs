@@ -23,15 +23,6 @@ namespace Milestone_1.models
         public string password { get; set; }
 
         public  UserData UserData { get; set; }
-
-        //public User(int id, string login, string password)
-        //{
-        //    this.id = id;
-        //    this.login = login;
-        //    this.password = password;
-           
-        //}
-
       
     }
 }

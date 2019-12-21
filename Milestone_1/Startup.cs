@@ -9,12 +9,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Milestone_1.Abstractions;
 using Milestone_1.Data;
 using Milestone_1.Hubs;
 using Milestone_1.models;
 using Milestone_1.Services;
-
 namespace Milestone_1
 {
     public class Startup
@@ -43,38 +43,33 @@ namespace Milestone_1
             });
             services.AddScoped<UserDataService>();
             services.AddScoped<IAllRepo, Repo>();
-
-       
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseHttpsRedirection();
-
             app.UseStaticFiles();
             //Session
             app.UseSession();
             //Session end
+            app.UseAuthentication();
 
             //SignalR
             app.UseSignalR(routes =>
             {
                 routes.MapHub<ChatHub>("/chatHub");
             });
+            //SignalR
 
 
             //SignalR
-            app.UseAuthentication();
             app.UseMvcWithDefaultRoute();
-           
+            app.UseCookiePolicy();
         }
     }
 }

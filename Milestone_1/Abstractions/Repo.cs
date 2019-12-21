@@ -81,7 +81,7 @@ namespace Milestone_1.Abstractions
             return _context.SaveChangesAsync();
         }
 
-        public void UpdateUser(int? id)
+        public void UpdateUser(User id)
         {
             _context.Update(id);
         }

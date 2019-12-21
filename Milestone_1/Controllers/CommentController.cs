@@ -12,6 +12,7 @@ using Milestone_1.models;
 
 namespace Milestone_1.Controllers
 {
+    [Authorize]
     public class CommentController : Controller
     {
         private readonly Milestone_1IdentityDbContext _context;

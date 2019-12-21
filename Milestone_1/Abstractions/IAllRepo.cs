@@ -24,7 +24,7 @@ namespace Milestone_1.Abstractions
         void DeleteUser(User user);
         void DeleteUserData(UserData user);
         //update
-        void UpdateUser(int? user);
+        void UpdateUser(User user);
         void UpdateUserData(UserData user);
         //detail
         Task<User> GetUserDetail(int? id);

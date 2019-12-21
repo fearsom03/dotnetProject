@@ -1,4 +1,4 @@
-@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityUser>
+@model IEnumerable<Milestone_1.models.User>
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -31,28 +31,38 @@
     <thead>
         <tr>
             <th>
-                Email
+                Login
             </th>
 
             <th>
                 Password
             </th>
-            <th></th>
+            <th>
+                Full Name
+            </th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Email)
+                @Html.DisplayFor(modelItem => item.login)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PasswordHash)
+                @Html.DisplayFor(modelItem => item.password)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                @if (item.UserData != null && item.UserData.UserDataId != null)
+                {
+                @Html.DisplayFor(modelItem => item.UserData.name + " " + item.UserData.surname)
+                }else {
+                           <h3 class="text-danger" > Need to enter it</h3>
+                }
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
             </td>
         </tr>
 }

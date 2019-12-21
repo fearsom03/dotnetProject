@@ -13,7 +13,7 @@ using Milestone_1.Services;
 
 namespace Milestone_1.Controllers
 {
-    [Authorize (Roles ="Admin")]
+    [Authorize]
     public class UserController : Controller
     {
         //private readonly TwitterContext _context;
@@ -37,7 +37,7 @@ namespace Milestone_1.Controllers
                 HttpContext.Session.SetString("msg", "authenticated");
             }
             Message = $"You're {HttpContext.Session.GetString("msg")} user";
-            return View(await service.GetUsersIdentity());
+            return View(await service.GetUsers());
         }
 
         // GET: User/Details/5
@@ -113,7 +113,7 @@ namespace Milestone_1.Controllers
             {
                 try
                 {
-                    await service.UpdateUser(user.id);
+                    await service.UpdateUser(user);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -140,7 +140,7 @@ namespace Milestone_1.Controllers
             }
 
             var user = await service.GetUserById(id);
-            await service.DeleteUser(user);
+           
 
             if (user == null)
             {

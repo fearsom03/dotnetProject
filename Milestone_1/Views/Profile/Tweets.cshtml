@@ -1,0 +1,38 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Twitter App</title>
+</head>
+<body>
+ <h1>Hello world</h1>
+
+    <div class="row">
+
+        <div class="col-md-3">
+            <ul class="nav nav-pills nav-stacked">
+                <li>
+                    <a asp-controller="Profile" asp-action="Index">Profile</a>
+                            </li>
+                <li class="active">
+                <a asp-controller="Profile" asp-action="Tweets">
+                    Tweets</a>
+                </li>
+                <li><a asp-controller="Profile" asp-action="Comments">Comments</a></li>
+                <li><a asp-controller="Profile" asp-action="Followers">Followers</a></li>
+            </ul>
+        </div>
+
+        <div class="col-md-9">
+            Here some part of Profile Page
+        </div>
+
+    </div>
+
+
+</body>
+</html>

@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Milestone_1.Areas.Identity.Data;
 
 namespace Milestone_1.Migrations
 {
     [DbContext(typeof(Milestone_1IdentityDbContext))]
-    partial class Milestone_1IdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191221040818_SeedRole21322")]
+    partial class SeedRole21322
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

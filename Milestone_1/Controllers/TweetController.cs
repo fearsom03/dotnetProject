@@ -63,7 +63,6 @@ namespace Milestone_1.Controllers
         }
 
         // GET: Tweet/Create
-        [Authorize(Roles = "User")]
         public IActionResult Create()
         {
             ViewData["GroupForeignKey"] = new SelectList(_context.groups, "GroupId", "GroupId");
@@ -74,7 +73,6 @@ namespace Milestone_1.Controllers
         // POST: Tweet/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize(Roles = "User")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("id,UserDataForeignKey,tweetText,post_date,GroupForeignKey")] Tweets tweets)

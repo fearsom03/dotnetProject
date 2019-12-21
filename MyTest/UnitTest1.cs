@@ -28,7 +28,7 @@ namespace MyTest
             var roleService = new UserDataService(fake);
 
             var role = new User() { login = "update-admin" };
-            await roleService.UpdateUser(role.id);
+            await roleService.UpdateUser(role);
 
         }
 

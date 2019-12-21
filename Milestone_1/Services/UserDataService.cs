@@ -35,7 +35,7 @@ namespace Milestone_1.Services
             _userRepo.AddUser(user);
             await _userRepo.Save();
         }
-        public async Task UpdateUser(int user)
+        public async Task UpdateUser(User user)
         {
             _userRepo.UpdateUser(user);
             await _userRepo.Save();
